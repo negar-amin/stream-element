@@ -1,0 +1,24 @@
+{
+  "name": "stream-element",
+  "version": "1.0.0",
+  "description": "Stream element for live streaming",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "gh-pages -d ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/negar-amin/stream-element.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/negar-amin/stream-element/issues"
+  },
+  "homepage": "https://github.com/negar-amin/stream-element#readme",
+  "devDependencies": {
+    "gh-pages": "^6.3.0"
+  }
+}
