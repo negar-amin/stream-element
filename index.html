@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Upload & Move</title>
+    <style>
+        body {
+            background: transparent; /* Fully transparent for OBS */
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        #image-container {
+            position: absolute;
+            cursor: grab;
+            transition: transform 0.5s ease-in-out, opacity 0.5s;
+        }
+        #image-container img {
+            max-width: 300px;
+            max-height: 300px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.5);
+        }
+        #upload {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <input type="file" id="upload" accept="image/*">
+    <div id="image-container" style="display: none;">
+        <img id="uploaded-image" src="" alt="Uploaded Image">
+    </div>
+
+    <script>
+        const uploadInput = document.getElementById("upload");
+        const imageContainer = document.getElementById("image-container");
+        const uploadedImage = document.getElementById("uploaded-image");
+
+        uploadInput.addEventListener("change", (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    uploadedImage.src = e.target.result;
+                    imageContainer.style.display = "block";
+                    
+                    // Animation effect
+                    imageContainer.style.opacity = "0";
+                    imageContainer.style.transform = "scale(0.5)";
+                    setTimeout(() => {
+                        imageContainer.style.opacity = "1";
+                        imageContainer.style.transform = "scale(1)";
+                    }, 100);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Drag and move feature
+        let isDragging = false;
+        let offsetX, offsetY;
+
+        imageContainer.addEventListener("mousedown", (e) => {
+            isDragging = true;
+            offsetX = e.clientX - imageContainer.offsetLeft;
+            offsetY = e.clientY - imageContainer.offsetTop;
+            imageContainer.style.cursor = "grabbing";
+        });
+
+        document.addEventListener("mousemove", (e) => {
+            if (isDragging) {
+                imageContainer.style.left = `${e.clientX - offsetX}px`;
+                imageContainer.style.top = `${e.clientY - offsetY}px`;
+            }
+        });
+
+        document.addEventListener("mouseup", () => {
+            isDragging = false;
+            imageContainer.style.cursor = "grab";
+        });
+    </script>
+</body>
+</html>
